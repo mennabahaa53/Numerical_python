@@ -1,0 +1,59 @@
+-0.9*x^2+1.7*x+2.5
+-1.8*x+1.7
+-x^2+1.8*x+2.5
+-1*x^2+1.8*x+2.5
+2x^3-11.7x^2+17.7x-5
+eps=float(input('enter epslon:'))   
+global equation
+equation=input("enter the equation:")
+xo = int(input("enter Xo :"))
+error=0
+
+
+def f(x):
+    simplifiedEquation = equation.strip()
+    simplifiedEquation = simplifiedEquation.replace('x', '*x')
+   
+    if simplifiedEquation[0] == '*':
+       simplifiedEquation = simplifiedEquation.replace('*', '')
+   
+    for i in range(len(simplifiedEquation)-1):
+       if i == len(simplifiedEquation)-1:
+           break
+       
+       if simplifiedEquation[i] == '+' and simplifiedEquation[i+1] =='*':
+           simplifiedEquation = simplifiedEquation.replace('*', '')
+       
+    simplifiedEquation = simplifiedEquation.replace('^', '**')
+   
+    solution = eval(simplifiedEquation)
+    return solution
+def simple_fixed_point(xo):
+    iter=0
+    count=0
+    xi = 0
+    xiplus1=0
+    while True:
+        xi = xo 
+        xiplus1=f(xi)
+        error = abs(((xiplus1 - xi) / xiplus1) * 100)
+
+        print("iteration=", iter,"|xi=",xi,"|f(xi)=",xiplus1)
+       
+        if iter>0:
+            print('error',error)
+        else :
+            print('error = NULL')
+        iter += 1
+        if count == 0:
+            error += 1
+            count += 1
+        if error < eps:
+            return xiplus1
+    
+if error>eps:
+    root = simple_fixed_point(xo)
+    print("root=", root) 
+    
+else:
+    print("this equation has no answer")
